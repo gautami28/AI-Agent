@@ -27,7 +27,9 @@ An AI-powered assistant that simplifies academic concepts using Wikipedia summar
 ├── requirements.txt    # Python dependencies
 └── README.md           # You're here!
 
-⚙️ Setup Instructions
+---
+
+**##  Setup Instructions**
 
 1. Clone the Repository
 
@@ -54,10 +56,7 @@ OR
 
 5. Visit the localhost site mentioned as per the port
 
-ScreenShots:
 
-![image2](https://github.com/user-attachments/assets/b70e0183-e992-4ebf-96dc-21f30becae71)
-
-![image3](https://github.com/user-attachments/assets/04d67911-dabd-4a97-9335-2a607c33d94c)
-
-
+![image2](https://github.com/user-attachments/assets/f0eb4d68-99fe-4260-878b-770e146cae08)
+![image3](https://github.com/user-attachments/assets/d7399ec8-9f0a-4450-8766-eec7b7f63d09)
+![image1](https://github.com/user-attachments/assets/3e7cc379-463e-48fd-81a3-4d6cf615afe6)
