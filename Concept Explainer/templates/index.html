@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimplifyIt AI Concept Explainer</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6fa; margin: 0; padding: 0; }
+        .container { max-width: 500px; margin: 60px auto; background: #fff; padding: 30px 40px; border-radius: 10px; box-shadow: 0 2px 8px #0001; }
+        h1 { text-align: center; color: #2d3a4b; }
+        input, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
+        button { background: #4f8cff; color: #fff; border: none; font-weight: bold; cursor: pointer; }
+        button:hover { background: #346fd1; }
+        .result { margin-top: 20px; background: #f0f4ff; padding: 15px; border-radius: 5px; min-height: 40px; }
+        .section-title { font-weight: bold; margin-top: 10px; }
+        .wiki-summary { background: #fffbe6; border-left: 5px solid #f7c948; padding: 12px; margin: 12px 0; font-size: 1.1em; }
+        .wiki-options { margin-top: 10px; color: #b00; }
+        .wiki-link { color: #346fd1; cursor: pointer; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SimplifyIt AI Concept Explainer</h1>
+        <form id="conceptForm">
+            <input type="text" id="concept" name="concept" placeholder="Enter a concept (e.g. Newton's Law)" required />
+            <button type="submit">Explain</button>
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+    <script>
+        async function fetchSummary(concept) {
+            document.getElementById('result').textContent = 'Thinking...';
+            const response = await fetch('/explain', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'concept=' + encodeURIComponent(concept)
+            });
+            const data = await response.json();
+            let html = '';
+            if (data.wiki_summary) {
+                html += `<div class='section-title'>Wikipedia Summary:</div><div class='wiki-summary'>${data.wiki_summary}</div>`;
+            }
+            if (data.wiki_url) {
+                html += `<div style='margin:10px 0'><a href='${data.wiki_url}' target='_blank' style='color:#346fd1;font-weight:bold;'>Read more on Wikipedia</a></div>`;
+            }
+            if (data.youtube_url) {
+                html += `<div style='margin:10px 0'><a href='${data.youtube_url}' target='_blank' style='color:#d32f2f;font-weight:bold;'>See related videos on YouTube</a></div>`;
+            }
+            if (data.ai_example) {
+                html += `<div class='section-title'>AI Example:</div><div class='wiki-summary'>${data.ai_example}</div>`;
+            }
+            if (data.wiki_options && data.wiki_options.length > 0) {
+                html += `<div class='wiki-options'>Wikipedia found multiple topics. Try one of these:<ul>`;
+                data.wiki_options.forEach(opt => {
+                    html += `<li><span class='wiki-link' onclick='fetchSummary("${opt.replace(/"/g, '&quot;')}")'>${opt}</span></li>`;
+                });
+                html += `</ul></div>`;
+            }
+            document.getElementById('result').innerHTML = html;
+        }
+        document.getElementById('conceptForm').onsubmit = function(e) {
+            e.preventDefault();
+            const concept = document.getElementById('concept').value;
+            fetchSummary(concept);
+        };
+    </script>
+</body>
+</html>
